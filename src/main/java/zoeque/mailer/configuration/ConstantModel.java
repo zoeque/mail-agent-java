@@ -1,4 +1,4 @@
-package zoeque.limitchecker.configuration;
+package zoeque.mailer.configuration;
 
 /**
  * The constant class for Schedule planning.

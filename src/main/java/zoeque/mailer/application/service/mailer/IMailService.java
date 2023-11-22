@@ -1,4 +1,4 @@
-package zoeque.limitchecker.application.service.mailer;
+package zoeque.mailer.application.service.mailer;
 
 import io.vavr.control.Try;
 

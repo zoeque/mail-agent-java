@@ -1,4 +1,4 @@
-package zoeque.limitchecker.domain.model;
+package zoeque.mailer.domain.model;
 
 import lombok.Getter;
 

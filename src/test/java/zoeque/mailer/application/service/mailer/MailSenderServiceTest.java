@@ -1,10 +1,9 @@
-package zoeque.limitchecker.application.service.mailer;
+package zoeque.mailer.application.service.mailer;
 
 import io.vavr.control.Try;
 import jakarta.mail.Session;
 import jakarta.mail.internet.MimeMessage;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -13,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.javamail.JavaMailSender;
-import zoeque.limitchecker.configuration.mail.MailServiceCollector;
-import zoeque.limitchecker.domain.model.MailServiceProviderModel;
+import zoeque.mailer.configuration.mail.MailServiceCollector;
+import zoeque.mailer.domain.model.MailServiceProviderModel;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
