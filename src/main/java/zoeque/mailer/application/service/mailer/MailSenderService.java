@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import zoeque.mailer.application.dto.MailDto;
 import zoeque.mailer.configuration.mail.MailServiceCollector;
 import zoeque.mailer.domain.model.MailService;
 import zoeque.mailer.domain.model.MailServiceProviderModel;
@@ -17,6 +18,7 @@ import zoeque.mailer.domain.model.MailServiceProviderModel;
 @MailService(MailServiceProviderModel.OTHERS)
 public class MailSenderService extends AbstractMailSenderService {
   JavaMailSender javaMailSender;
+
   public MailSenderService(@Value("${zoeque.limitchecker.mail.address.to:null}")
                            String toMailAddress,
                            @Value("${zoeque.limitchecker.mail.address.from:null}")
@@ -32,17 +34,16 @@ public class MailSenderService extends AbstractMailSenderService {
   /**
    * Send e-mail with full parameter in application.properties
    */
-  public Try<String> sendMailToUser(String subject,
-                                    String messageContent) {
+  public Try<MailDto> sendMailToUser(MailDto dto) {
     MimeMessage message = javaMailSender.createMimeMessage();
     try {
       MimeMessageHelper helper = new MimeMessageHelper(message, true);
-      helper.setFrom(fromMailAddress);
-      helper.setTo(toMailAddress);
-      helper.setSubject(subject);
-      helper.setText(messageContent);
+      helper.setFrom(dto.getHeaderFrom());
+      helper.setTo(dto.getHeaderTo());
+      helper.setSubject(dto.getSubject());
+      helper.setText(dto.getMessage());
       javaMailSender.send(message);
-      return Try.success(messageContent);
+      return Try.success(dto);
     } catch (Exception e) {
       return Try.failure(e);
     }

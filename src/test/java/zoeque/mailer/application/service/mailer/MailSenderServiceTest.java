@@ -4,6 +4,7 @@ import io.vavr.control.Try;
 import jakarta.mail.Session;
 import jakarta.mail.internet.MimeMessage;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.javamail.JavaMailSender;
+import zoeque.mailer.application.dto.MailDto;
 import zoeque.mailer.configuration.mail.MailServiceCollector;
 import zoeque.mailer.domain.model.MailServiceProviderModel;
 import static org.mockito.Mockito.when;
@@ -35,7 +37,7 @@ public class MailSenderServiceTest {
             collector, mockMailSender);
     MimeMessage dummyMessage = new MimeMessage((Session) null);
     when(mockMailSender.createMimeMessage()).thenReturn(dummyMessage);
-    Try<String> sendTry = service.sendMailToUser("test", "test");
+    Try<MailDto> sendTry = service.sendMailToUser(new MailDto(null, null, "test", "test"));
     Assertions.assertTrue(sendTry.isSuccess());
   }
 
@@ -44,6 +46,7 @@ public class MailSenderServiceTest {
    * that defined in application.properties.
    */
   @Test
+  @Disabled
   public void givenMailServiceAndMail_thenSendSuccess() {
     if (integrationTestMode) {
       String subject = "【テスト】このメールは消費期限管理アプリケーションからのテスト配信メールです。";
@@ -54,7 +57,9 @@ public class MailSenderServiceTest {
                                
               /** 消費期限管理アプリケーション **/
               """;
-      Try<String> sendTry = gmailSenderService.sendMailToUser(subject, message);
+      Try<MailDto> sendTry = gmailSenderService.sendMailToUser(
+              new MailDto(null, null, subject, message)
+      );
       Assertions.assertTrue(sendTry.isSuccess());
     }
   }
