@@ -1,11 +1,13 @@
-package zoeque.limitchecker.application.service.mailer;
+package zoeque.mailer.application.service.mailer;
 
 import io.micrometer.common.util.StringUtils;
+import io.vavr.control.Try;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
-import zoeque.limitchecker.configuration.mail.MailServiceCollector;
-import zoeque.limitchecker.domain.model.MailServiceProviderModel;
+import zoeque.mailer.application.event.MailRequestEvent;
+import zoeque.mailer.configuration.mail.MailServiceCollector;
+import zoeque.mailer.domain.model.MailServiceProviderModel;
 
 
 /**
@@ -32,18 +34,32 @@ public abstract class AbstractMailSenderService implements IMailService {
   }
 
   /**
-   * TODO
+   * The event listener that receives event with the message
+   * and send it to the end point defined in application.properties
+   * or specified field in the given event.
    *
-   * @param event TODO
+   * @param event The instance of {@link MailRequestEvent} with full fields..
    */
   @EventListener
-  public void sendMail() {
-    if (StringUtils.isEmpty(toMailAddress) || StringUtils.isEmpty(fromMailAddress)) {
-      log.error("The mail address must not be null!! Failed to send email!!");
-      return;
-    }
+  public void sendMail(MailRequestEvent event) {
+    MailRequestEvent request = determineMailAddresses(event).get();
     collector.findMailService(model)
             .get()
-            .sendMailToUser(null,null);
+            .sendMailToUser(request.getSubject(),
+                    request.getMessage());
+  }
+
+  private Try<MailRequestEvent> determineMailAddresses(MailRequestEvent event) {
+    try {
+      if (StringUtils.isEmpty(event.getToMailAddress())) {
+        event.setToMailAddress(toMailAddress);
+      }
+      if (StringUtils.isEmpty(event.getFromMailAddress())) {
+        event.setFromMailAddress(fromMailAddress);
+      }
+      return Try.success(event);
+    } catch (Exception e) {
+      return Try.failure(e);
+    }
   }
 }

@@ -1,4 +1,4 @@
-package zoeque.limitchecker.domain.model;
+package zoeque.mailer.domain.model;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,17 +1,16 @@
-package zoeque.limitchecker.configuration.mail;
+package zoeque.mailer.configuration.mail;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import lombok.Getter;
 import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.stereotype.Component;
-import zoeque.limitchecker.application.service.mailer.IMailService;
-import zoeque.limitchecker.domain.model.MailService;
-import zoeque.limitchecker.domain.model.MailServiceProviderModel;
+import zoeque.mailer.application.service.mailer.IMailService;
+import zoeque.mailer.domain.model.MailService;
+import zoeque.mailer.domain.model.MailServiceProviderModel;
 
 /**
  * The configuration class to collect {@link IMailService}.

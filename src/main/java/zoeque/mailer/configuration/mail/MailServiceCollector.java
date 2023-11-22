@@ -1,11 +1,10 @@
-package zoeque.limitchecker.configuration.mail;
+package zoeque.mailer.configuration.mail;
 
 import io.vavr.control.Try;
-import java.util.Map;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.stereotype.Component;
-import zoeque.limitchecker.application.service.mailer.IMailService;
-import zoeque.limitchecker.domain.model.MailServiceProviderModel;
+import zoeque.mailer.application.service.mailer.IMailService;
+import zoeque.mailer.domain.model.MailServiceProviderModel;
 
 /**
  * The class to find the mail service to use

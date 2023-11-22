@@ -1,4 +1,4 @@
-package zoeque.limitchecker.application.service.mailer;
+package zoeque.mailer.application.service.mailer;
 
 import io.vavr.control.Try;
 import lombok.extern.slf4j.Slf4j;
@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
-import zoeque.limitchecker.configuration.mail.MailServiceCollector;
-import zoeque.limitchecker.domain.model.MailService;
-import zoeque.limitchecker.domain.model.MailServiceProviderModel;
+import zoeque.mailer.configuration.mail.MailServiceCollector;
+import zoeque.mailer.domain.model.MailService;
+import zoeque.mailer.domain.model.MailServiceProviderModel;
 
 @Slf4j
 @Service
