@@ -9,7 +9,7 @@ The library that performs easy implementation, easy embedded to send an e-mail w
 ## Development
 This application is built with the environment bellow;
 
-- OpenJDK 17.0.7 **TBD how about Java21?**
+- OpenJDK 21.0.1
 - Spring boot 3.1.1
 - IntelliJ IDEA 2023.1.2
 
