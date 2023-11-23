@@ -5,6 +5,7 @@ import io.vavr.control.Try;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
+import zoeque.mailer.application.dto.MailDto;
 import zoeque.mailer.application.event.MailRequestEvent;
 import zoeque.mailer.configuration.mail.MailServiceCollector;
 import zoeque.mailer.domain.model.MailServiceProviderModel;
@@ -45,8 +46,12 @@ public abstract class AbstractMailSenderService implements IMailService {
     MailRequestEvent request = determineMailAddresses(event).get();
     collector.findMailService(model)
             .get()
-            .sendMailToUser(request.getSubject(),
-                    request.getMessage());
+            .sendMailToUser(new MailDto(
+                    event.getToMailAddress(),
+                    event.getFromMailAddress(),
+                    event.getSubject(),
+                    event.getMessage()
+            ));
   }
 
   private Try<MailRequestEvent> determineMailAddresses(MailRequestEvent event) {

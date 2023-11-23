@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
+import zoeque.mailer.application.dto.MailDto;
+import zoeque.mailer.application.event.MailRequestEvent;
 import zoeque.mailer.configuration.mail.MailServiceCollector;
 import zoeque.mailer.domain.model.MailService;
 import zoeque.mailer.domain.model.MailServiceProviderModel;
@@ -15,6 +17,7 @@ import zoeque.mailer.domain.model.MailServiceProviderModel;
 @MailService(MailServiceProviderModel.GMAIL)
 public class GmailSenderService extends AbstractMailSenderService {
   private MailSender sender;
+  private SimpleMailMessage simpleMailMessage;
 
   public GmailSenderService(@Value("${zoeque.limitchecker.mail.address.to:null}")
                             String toMailAddress,
@@ -23,22 +26,23 @@ public class GmailSenderService extends AbstractMailSenderService {
                             @Value("${zoeque.limitchecker.mail.provider:OTHERS}")
                             MailServiceProviderModel model,
                             MailServiceCollector collector,
-                            MailSender sender) {
+                            MailSender sender,
+                            SimpleMailMessage simpleMailMessage) {
     super(toMailAddress, fromMailAddress, model, collector);
     this.sender = sender;
+    this.simpleMailMessage = simpleMailMessage;
   }
 
   @Override
-  public Try<String> sendMailToUser(String subject, String messageContent) {
+  public Try<MailDto> sendMailToUser(MailDto dto) {
     try {
-      SimpleMailMessage msg = new SimpleMailMessage();
-      msg.setFrom(fromMailAddress);
-      msg.setTo(toMailAddress);
-      msg.setSubject(subject);
-      msg.setText(messageContent);
+      simpleMailMessage.setFrom(dto.getHeaderFrom());
+      simpleMailMessage.setTo(dto.getHeaderTo());
+      simpleMailMessage.setSubject(dto.getSubject());
+      simpleMailMessage.setText(dto.getMessage());
 
-      sender.send(msg);
-      return Try.success(messageContent);
+      sender.send(simpleMailMessage);
+      return Try.success(dto);
     } catch (Exception e) {
       return Try.failure(e);
     }
