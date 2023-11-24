@@ -1,6 +1,5 @@
 package zoeque.mailer.application.service.mailer;
 
-import io.micrometer.common.util.StringUtils;
 import io.vavr.control.Try;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,10 +55,10 @@ public abstract class AbstractMailSenderService implements IMailService {
 
   private Try<MailRequestEvent> determineMailAddresses(MailRequestEvent event) {
     try {
-      if (StringUtils.isEmpty(event.getToMailAddress())) {
+      if (event.getToMailAddress() == null) {
         event.setToMailAddress(toMailAddress);
       }
-      if (StringUtils.isEmpty(event.getFromMailAddress())) {
+      if (event.getFromMailAddress() == null) {
         event.setFromMailAddress(fromMailAddress);
       }
       return Try.success(event);

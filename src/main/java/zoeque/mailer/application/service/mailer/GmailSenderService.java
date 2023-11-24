@@ -7,7 +7,6 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import zoeque.mailer.application.dto.MailDto;
-import zoeque.mailer.application.event.MailRequestEvent;
 import zoeque.mailer.configuration.mail.MailServiceCollector;
 import zoeque.mailer.domain.model.MailService;
 import zoeque.mailer.domain.model.MailServiceProviderModel;
