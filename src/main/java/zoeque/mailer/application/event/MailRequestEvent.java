@@ -2,7 +2,6 @@ package zoeque.mailer.application.event;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import zoeque.mailer.application.service.mailer.IMailService;
 
 /**
@@ -22,7 +21,7 @@ public class MailRequestEvent {
    * Mail address (from and to) also can be set, but it is not required.
    * If the address is null in the instance of this class,
    * use address defined in application.properties.
-   * This event is notified via {@link ApplicationEventPublisher}
+   * This event is notified via ApplicationEventPublisher provided by Spring framework
    * and receive this event in {@link IMailService}.
    *
    * @param subject         The subject of the mail. Must not be null.

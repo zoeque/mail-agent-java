@@ -1,4 +1,10 @@
 module mail.agent.java.main {
-  // export the event class, no dependency with other classes
   exports zoeque.mailer.application.event;
+  requires io.vavr;
+  requires lombok;
+  requires org.slf4j;
+  requires jakarta.mail;
+  requires spring.context;
+  requires spring.beans;
+  requires spring.context.support;
 }
