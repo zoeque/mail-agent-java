@@ -37,8 +37,27 @@ public class MailSenderServiceTest {
             collector, mockMailSender);
     MimeMessage dummyMessage = new MimeMessage((Session) null);
     when(mockMailSender.createMimeMessage()).thenReturn(dummyMessage);
-    Try<MailDto> sendTry = service.sendMailToUser(new MailDto(null, null, "test", "test"));
+    Try<MailDto> sendTry = service.sendMailToUser(new MailDto("hoge", "piyo", "test", "test"));
     Assertions.assertTrue(sendTry.isSuccess());
+  }
+
+  @Test
+  public void noArgumentOfMailAddress_thenThrowIllegalArgumentException() {
+    AbstractMailSenderService service
+            = new MailSenderService("foo", "bar", MailServiceProviderModel.OTHERS,
+            collector, mockMailSender);
+    MimeMessage dummyMessage = new MimeMessage((Session) null);
+    when(mockMailSender.createMimeMessage()).thenReturn(dummyMessage);
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {
+      Try<MailDto> sendTry = service.sendMailToUser(new MailDto(null, "piyo", "test", "test"));
+      Assertions.assertTrue(sendTry.isFailure());
+      sendTry.get();
+    });
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {
+      Try<MailDto> sendTry = service.sendMailToUser(new MailDto("hoge", null, "test", "test"));
+      Assertions.assertTrue(sendTry.isFailure());
+      sendTry.get();
+    });
   }
 
   /**
