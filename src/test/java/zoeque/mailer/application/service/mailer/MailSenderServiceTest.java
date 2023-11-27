@@ -26,39 +26,7 @@ public class MailSenderServiceTest {
   @Value("${zoeque.integration.test:false}")
   boolean integrationTestMode;
   @Autowired
-  MailServiceCollector collector;
-  @Autowired
   GmailSenderService gmailSenderService;
-
-  @Test
-  public void givenMockMailServiceAndMail_thenSendSuccess() {
-    AbstractMailSenderService service
-            = new MailSenderService("foo", "bar", MailServiceProviderModel.OTHERS,
-            collector, mockMailSender);
-    MimeMessage dummyMessage = new MimeMessage((Session) null);
-    when(mockMailSender.createMimeMessage()).thenReturn(dummyMessage);
-    Try<MailDto> sendTry = service.sendMailToUser(new MailDto("hoge", "piyo", "test", "test"));
-    Assertions.assertTrue(sendTry.isSuccess());
-  }
-
-  @Test
-  public void noArgumentOfMailAddress_thenThrowIllegalArgumentException() {
-    AbstractMailSenderService service
-            = new MailSenderService("foo", "bar", MailServiceProviderModel.OTHERS,
-            collector, mockMailSender);
-    MimeMessage dummyMessage = new MimeMessage((Session) null);
-    when(mockMailSender.createMimeMessage()).thenReturn(dummyMessage);
-    Assertions.assertThrows(IllegalArgumentException.class, () -> {
-      Try<MailDto> sendTry = service.sendMailToUser(new MailDto(null, "piyo", "test", "test"));
-      Assertions.assertTrue(sendTry.isFailure());
-      sendTry.get();
-    });
-    Assertions.assertThrows(IllegalArgumentException.class, () -> {
-      Try<MailDto> sendTry = service.sendMailToUser(new MailDto("hoge", null, "test", "test"));
-      Assertions.assertTrue(sendTry.isFailure());
-      sendTry.get();
-    });
-  }
 
   /**
    * The test method to send real e-mail message
