@@ -23,6 +23,8 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: 17
+          distribution: 'adopt'
+          cache: maven
 
       - name: "Configure Gradle distribution"
         run: echo "distributionUrl=https://services.gradle.org/distributions/gradle-7.3-bin.zip" >> gradle/wrapper/gradle-wrapper.properties
