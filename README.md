@@ -26,7 +26,7 @@ Example;
 ## Development
 This application is built with the environment bellow;
 
-- OpenJDK 21.0.1
+- OpenJDK 17
 - Spring boot 3.1.1
 - IntelliJ IDEA 2023.1.2
 
