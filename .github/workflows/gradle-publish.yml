@@ -24,6 +24,9 @@ jobs:
         with:
           java-version: 17
 
+      - name: "Configure Gradle distribution"
+        run: echo "distributionUrl=https://services.gradle.org/distributions/gradle-7.3-bin.zip" >> gradle/wrapper/gradle-wrapper.properties
+
       - name: run test
         uses: eskatos/gradle-command-action@v1
         with:
