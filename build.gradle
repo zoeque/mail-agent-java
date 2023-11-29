@@ -2,9 +2,11 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.1.0'
 	id 'io.spring.dependency-management' version '1.1.0'
+	id 'java-library'
+	id 'maven-publish'
 }
 
-group = 'zoeque'
+group = 'zoeque.mailer'
 version = '1.0.0'
 
 java {
@@ -38,6 +40,25 @@ dependencies {
 	runtimeOnly 'com.h2database:h2:2.2.220'
 	implementation 'io.vavr:vavr:0.10.3'
 	implementation 'com.google.apis:google-api-services-gmail:v1-rev110-1.25.0'
+}
+
+publishing {
+	repositories {
+		maven {
+			name = 'github-publish'
+			url = uri('https://maven.pkg.github.com/zoeque/mail-agent-java')
+			credentials {
+				username = project.hasProperty("GITHUB_USERNAME") ? GITHUB_USERNAME : ''
+				password = project.hasProperty("GITHUB_TOKEN") ? GITHUB_TOKEN : ''
+			}
+		}
+	}
+	publications {
+		gpr(MavenPublication) {
+			artifactId = 'mailagentjava'
+			from(components.java)
+		}
+	}
 }
 
 tasks.named('test') {
